@@ -1,5 +1,5 @@
 MODULE_NAME = hello_driver
-KDIR = /lib/modules/5.10.92-v7l+/build
+KDIR = /lib/modules/'uname -r'/build
 obj-m := $(MODULE_NAME).o
 default:
 	$(MAKE) -C $(KDIR) M=$$PWD modules
