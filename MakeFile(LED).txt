@@ -1,0 +1,21 @@
+# This is simple Makefile
+FILE = test_led		# Application file name
+KDIR = /root/rasp/linux	# Kernel source directory
+obj-m := led_driver.o    	# Compile “led_driver.c” to make led_driver.ko file.
+TOOLCHAIN=arm-linux-gnueabihf-
+CC := $(TOOLCHAIN)gcc 	# Set compiler for application compilation.
+PWD := $(shell pwd)  	# Fetch environment variables to the current directory. all: app driver  		# Entire part is executed when give “make” cmd. 
+driver : 			# Executed when give “make driver” cmd.
+ $(MAKE) -C $(KDIR) SUBDIRS=$(PWD) ARCH=arm  			CROSS_COMPILE=$(TOOLCHAIN) modules
+app :  			# Executed when give “make app” cmd. 
+    $(CC)  -o $(FILE) $(FILE).c
+install : 			# Executed when give “make install” cmd. 
+    cp -a led_driver.ko /root/rasp/nfs
+    cp -a $(FILE) /root/rasp/nfs
+clean: 			# Executed when give “make clean” cmd.
+    rm -f *.ko
+    rm -f *.mod.*
+    rm -f *.o
+    rm -f $(FILE)
+    rm -f modules.order
+    rm -f Module.symvers 
